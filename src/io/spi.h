@@ -31,23 +31,13 @@ namespace io {
 
         bool IsReady();
 
-        void Start();
-
-        void Stop();
-
-        void Write(uint8_t *data, int len);
-
-        void SetDataHandler(std::function<void(std::vector<uint8_t>)> func);
+        int Transfer(uint8_t *buf, int len);
 
 
     private:
         SPIChannel _channel;
         int _speed_hz;
         int _fd;
-        std::atomic_bool _stopped;
-        std::thread *_reader_thr;
-        std::function<void(std::vector<uint8_t>)> _data_cb;
-        void ReaderThreadLoop();
 
     };
 }
