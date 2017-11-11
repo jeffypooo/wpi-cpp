@@ -1,5 +1,6 @@
 #include <iostream>
 #include <thread>
+#include <unistd.h>
 #include "../io/spi.h"
 #include "../io/logger.h"
 
@@ -8,7 +9,7 @@ using namespace std;
 static const char *TAG = "MAIN";
 
 
-int main() {
+int main(int argc, char **argv) {
     auto *spi = new io::SPI(io::SPIChannel::ZERO, 5000000);
     if (!spi->IsReady()) {
         io::LogV(TAG, "spi failed to init, exiting...");
@@ -18,7 +19,10 @@ int main() {
         io::LogV(TAG, "READ %d", data.size());
     });
     spi->Start();
-    while (true);
+    sleep(1);
+    auto *write_data = new uint8_t[32];
+    spi->Write(write_data, 32);
+    spi->Stop();
     return 0;
 
 }

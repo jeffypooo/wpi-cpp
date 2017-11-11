@@ -14,6 +14,7 @@ extern "C" {
 #include <iostream>
 #include <thread>
 #include <cstring>
+#include <utility>
 #include "logger.h"
 #include "spi.h"
 
@@ -45,38 +46,40 @@ namespace io {
     }
 
     void SPI::Start() {
-        if (this->_reader_thr != nullptr) {
-            return;
-        }
+        if (this->_reader_thr != nullptr) return;
+        LogV(TAG, "starting reader thread");
+        this->_stopped = false;
         this->_reader_thr = new std::thread(&SPI::ReaderThreadLoop, this);
     }
 
     void SPI::Stop() {
         if (this->_data_cb == nullptr) return;
-        this->_reader_thr->join();
+        this->_stopped = true;
+        this->_reader_thr = nullptr;
+    }
+
+    void SPI::Write(uint8_t *data, int len) {
+        //TODO: implement
+        LogE(TAG, "Write is not implemented");
     }
 
     void SPI::SetDataHandler(std::function<void(std::vector<uint8_t>)> func) {
-        this->_data_cb = func;
+        this->_data_cb = std::move(func);
     }
 
     void SPI::ReaderThreadLoop() {
         auto *buf = new uint8_t[32];
-        try {
-            while (true) {
-                int read = wiringPiSPIDataRW(this->_channel, buf, 32);
-                if (this->_data_cb != nullptr && read > 0) {
-                    std::vector<uint8_t> vec;
-                    vec.resize(static_cast<unsigned int>(read));
-                    memcpy(vec.data(), buf, static_cast<size_t>(read));
-                    this->_data_cb(vec);
-                }
+        while (!this->_stopped) {
+            int read = wiringPiSPIDataRW(this->_channel, buf, 32);
+            if (this->_data_cb != nullptr && read > 0) {
+                std::vector<uint8_t> vec;
+                vec.resize(static_cast<unsigned int>(read));
+                memcpy(vec.data(), buf, static_cast<size_t>(read));
+                this->_data_cb(vec);
             }
-
-        } catch (std::exception const &ex) {
-            delete[] buf;
-            LogV(TAG, "reader thread terminated");
         }
+        delete[] buf;
+        LogV(TAG, "reader thread terminated");
     }
 
 

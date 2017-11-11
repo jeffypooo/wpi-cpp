@@ -8,6 +8,7 @@
 namespace io {
 
     void LogV(const char *tag, const char *fmt, ...);
+    void LogE(const char *tag, const char *fmt, ...);
 
 }
 
