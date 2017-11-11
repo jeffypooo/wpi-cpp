@@ -17,7 +17,9 @@ set(SPI_SRC src/io/spi.cpp src/io/spi.h src/io/logger.h src/io/logger.cpp)
 add_library(rpispi ${SPI_SRC})
 target_link_libraries(rpispi wiringPi pthread)
 
-add_subdirectory(src/example)
+if (DEFINED BUILD_EXAMPLES)
+    add_subdirectory(src/example)
+endif ()
 
 
 
