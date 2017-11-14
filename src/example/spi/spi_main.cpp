@@ -1,8 +1,10 @@
 #include <iostream>
 #include <thread>
 #include <cstring>
-#include "../io/spi.h"
-#include "../io/logger.h"
+#include <io/io.h>
+#include <io/spi.h>
+#include <io/logger.h>
+
 
 #define ERR_SPI_INIT_FAILURE    (-1)
 #define ERR_SPI_XFER_FAILURE    (-2)
