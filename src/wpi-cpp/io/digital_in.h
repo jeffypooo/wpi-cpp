@@ -8,7 +8,7 @@
 #include "io.h"
 #include <functional>
 
-namespace io {
+namespace wpi {
 
 
     class DigitalIn {

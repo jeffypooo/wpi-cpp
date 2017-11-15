@@ -12,21 +12,15 @@ extern "C" {
 #endif
 
 #include <iostream>
-#include <thread>
-#include <cstring>
-#include <utility>
-#include "logger.h"
 #include "spi.h"
 
 static const char *TAG = "SPI";
 
-namespace io {
+namespace wpi {
 
     SPI::SPI(SPIChannel channel, int speedHz) : _channel(channel), _speed_hz(speedHz), _fd(-1) {
         double mhz = (double) speedHz / 1000000.0;
-        LogV(TAG, "setting up using channel %d at %.2fMHz", channel, mhz);
         this->_fd = wiringPiSPISetup(this->_channel, this->_speed_hz);
-        LogV(TAG, "FD = %d", this->_fd);
     }
 
     SPIChannel SPI::GetChannel() {
@@ -49,11 +43,6 @@ namespace io {
         int xfer_cnt = 0;
         int tries = 0;
         while (tries++ < 5 && ((xfer_cnt = wiringPiSPIDataRW(this->_channel, buf, len)) < 0));
-        if (xfer_cnt < 0) {
-            LogE(TAG, "transfer of %dB failed.", len);
-        } else {
-            LogV(TAG, "transfer: %dB", xfer_cnt);
-        }
         return xfer_cnt;
     }
 

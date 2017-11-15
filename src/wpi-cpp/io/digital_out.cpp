@@ -3,15 +3,13 @@
 //
 
 #include "digital_out.h"
-#include "logger.h"
 #include "io.h"
 
-namespace io {
+namespace wpi {
 
     static const char *TAG = "io::DigitalOut";
 
     DigitalOut::DigitalOut(int pin) : _phys_pin(pin), _gpio_pin(physPinToGpio(pin)) {
-        LogV(TAG, "using P1:%d (GPIO:%d)", _phys_pin, _gpio_pin);
         pinMode(_gpio_pin, PinMode::MODE_OUTPUT);
     }
 

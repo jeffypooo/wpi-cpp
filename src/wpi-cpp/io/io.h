@@ -13,7 +13,7 @@ extern "C" {
 };
 #endif
 
-namespace io {
+namespace wpi {
 
     void Setup();
 

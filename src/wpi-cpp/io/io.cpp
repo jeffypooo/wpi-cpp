@@ -3,7 +3,7 @@
 //
 #include "io.h"
 
-namespace io {
+namespace wpi {
     void Setup() {
         wiringPiSetupGpio();
         piHiPri(99);

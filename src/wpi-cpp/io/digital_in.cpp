@@ -3,9 +3,8 @@
 //
 
 #include "digital_in.h"
-#include "logger.h"
 
-namespace io {
+namespace wpi {
 
     static const char *TAG = "io::DigitalIn";
 
@@ -15,7 +14,6 @@ namespace io {
                                     _gpio_pin(physPinToGpio(pin)),
                                     _irq_type(InterruptType::NONE),
                                     _irq_handler() {
-        LogV(TAG, "using P1:%d (GPIO:%d)", _phys_pin, _gpio_pin);
         pinMode(_gpio_pin, PinMode::MODE_INPUT);
     }
 

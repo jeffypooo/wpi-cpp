@@ -11,7 +11,7 @@
 #include <functional>
 #include <atomic>
 
-namespace io {
+namespace wpi {
 
     enum SPIChannel : int {
         ZERO = 0, ONE = 1

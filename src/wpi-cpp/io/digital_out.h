@@ -5,7 +5,7 @@
 #ifndef RPI_SPI_DIGITAL_OUT_H
 #define RPI_SPI_DIGITAL_OUT_H
 
-namespace io {
+namespace wpi {
     class DigitalOut {
     public:
         explicit DigitalOut(int pin);
