@@ -19,7 +19,6 @@ static const char *TAG = "SPI";
 namespace wpi {
 
     SPI::SPI(SPIChannel channel, int speedHz) : _channel(channel), _speed_hz(speedHz), _fd(-1) {
-        double mhz = (double) speedHz / 1000000.0;
         this->_fd = wiringPiSPISetup(this->_channel, this->_speed_hz);
     }
 

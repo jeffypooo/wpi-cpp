@@ -5,7 +5,7 @@
 
 namespace wpi {
     void Setup() {
-        wiringPiSetupGpio();
-        piHiPri(99);
+        wiringPiSetup();
+//        piHiPri(99);
     }
 }

@@ -5,10 +5,12 @@
 #ifndef RPI_SPI_DIGITAL_OUT_H
 #define RPI_SPI_DIGITAL_OUT_H
 
+#include "io.h"
+
 namespace wpi {
     class DigitalOut {
     public:
-        explicit DigitalOut(int pin);
+        explicit DigitalOut(Pin pin);
 
         virtual ~DigitalOut() = default;
 
@@ -17,8 +19,7 @@ namespace wpi {
         void Write(int value);
 
     private:
-        int _phys_pin;
-        int _gpio_pin;
+        Pin pin_;
     };
 }
 

@@ -10,32 +10,23 @@ namespace wpi {
 
     /* public */
 
-    DigitalIn::DigitalIn(int pin) : _phys_pin(pin),
-                                    _gpio_pin(physPinToGpio(pin)),
-                                    _irq_type(InterruptType::NONE),
-                                    _irq_handler() {
-        pinMode(_gpio_pin, PinMode::MODE_INPUT);
+    DigitalIn::DigitalIn(Pin pin) : pin_(pin),
+                                    _irq_type(InterruptType::NONE) {
+        pinMode(pin_, PinMode::MODE_INPUT);
     }
 
     int DigitalIn::Read() {
-        return digitalRead(_gpio_pin);
+        return digitalRead(pin_);
     }
 
-    void DigitalIn::AttachIRQ(const std::function<void(DigitalIn *)> &handler, InterruptType type) {
-        _irq_handler = std::move(handler);
+    void DigitalIn::AttachIRQ(InterruptType type, void (*isr)()) {
         _irq_type = type;
-        wiringPiISR(_gpio_pin, type, reinterpret_cast<void (*)(void)>(&DigitalIn::InternalIRQHandler));
+        wiringPiISR(pin_, type, isr);
     }
 
     void DigitalIn::DetachIRQ() {
         _irq_type = InterruptType::NONE;
-        _irq_handler = {};
-    }
-
-    /* private */
-
-    void DigitalIn::InternalIRQHandler() {
-        _irq_handler(this);
+        wiringPiISR(pin_, INT_EDGE_SETUP, nullptr);
     }
 
 

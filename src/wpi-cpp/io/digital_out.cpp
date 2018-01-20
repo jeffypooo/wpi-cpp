@@ -9,16 +9,16 @@ namespace wpi {
 
     static const char *TAG = "io::DigitalOut";
 
-    DigitalOut::DigitalOut(int pin) : _phys_pin(pin), _gpio_pin(physPinToGpio(pin)) {
-        pinMode(_gpio_pin, PinMode::MODE_OUTPUT);
+    DigitalOut::DigitalOut(Pin pin) : pin_(pin) {
+        pinMode(pin, PinMode::MODE_OUTPUT);
     }
 
     int DigitalOut::Read() {
-        return digitalRead(_gpio_pin);
+        return digitalRead(pin_);
     }
 
     void DigitalOut::Write(int value) {
         int d_value = value > 0 ? 1 : 0;
-        digitalWrite(_gpio_pin, d_value);
+        digitalWrite(pin_, d_value);
     }
 }

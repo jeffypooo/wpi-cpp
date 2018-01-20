@@ -13,25 +13,19 @@ namespace wpi {
 
     class DigitalIn {
     public:
-        explicit DigitalIn(int pin);
+        explicit DigitalIn(Pin pin);
 
         virtual ~DigitalIn() = default;
 
         int Read();
 
-        void AttachIRQ(const std::function<void(DigitalIn *)> &handler, InterruptType type);
+        void AttachIRQ(InterruptType type, void (*isr)());
 
         void DetachIRQ();
 
     private:
-        int _phys_pin;
-        int _gpio_pin;
+        int pin_;
         InterruptType _irq_type;
-        std::function<void(DigitalIn *)> _irq_handler;
-
-        void (*c_irq_func)();
-
-        void InternalIRQHandler();
 
     };
 }
