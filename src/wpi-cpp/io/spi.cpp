@@ -39,10 +39,7 @@ namespace wpi {
     }
 
     int SPI::Transfer(uint8_t *buf, int len) {
-        int xfer_cnt = 0;
-        int tries = 0;
-        while (tries++ < 5 && ((xfer_cnt = wiringPiSPIDataRW(this->_channel, buf, len)) < 0));
-        return xfer_cnt;
+        return wiringPiSPIDataRW(this->_channel, buf, len);
     }
 
 
