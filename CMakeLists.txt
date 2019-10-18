@@ -6,11 +6,6 @@ macro(PROJECT_STATUS MSG)
     message(STATUS "wpi-cpp: ${MSG}")
 endmacro()
 
-# Sanity check for toolchain
-PROJECT_STATUS("sanity checking toolchain configuration...")
-PROJECT_STATUS("toolchain file  = ${CMAKE_TOOLCHAIN_FILE}")
-PROJECT_STATUS("sysroot         = ${CMAKE_SYSROOT}")
-
 # Misc toolchain options
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_BUILD_TYPE Debug)
